@@ -20,7 +20,7 @@ export async function POST(request: Request) {
         // ペイロードを作成
         const payload = { email: reqBody.email };
 
-        // JWTを作成
+        // JWTを作成。普段はNextAuthが使われがちらしい。
         const jwt = await new SignJWT(payload)
           .setProtectedHeader({ alg: "HS256" })
           .setExpirationTime("6h")
