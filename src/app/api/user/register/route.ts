@@ -1,8 +1,8 @@
 import connectDB from "@/app/util/database";
 import { UserModel } from "@/app/util/schemaModels";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const reqBody = await request.json();
 
   try {
