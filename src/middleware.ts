@@ -12,13 +12,19 @@ export async function middleware(request: Request) {
 
   try {
     // トークンの検証
-    const secretKey = new TextEncoder().encode(process.env.SERVER_KEY)
-    const decodedJwt = await jwtVerify(token, secretKey)
+    verifyToken(token)
 
     return NextResponse.next()
   } catch {
     return NextResponse.json({ message: "トークンが間違っています" }, { status: 401 })
   }
+}
+
+export const verifyToken = async (token: string) => {
+    const secretKey = new TextEncoder().encode(process.env.SERVER_KEY)
+    const decodedJwt = await jwtVerify(token, secretKey)
+
+    return decodedJwt
 }
 
 export const config = {

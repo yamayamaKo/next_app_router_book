@@ -4,13 +4,19 @@ import { NextResponse } from "next/server";
 import { Context } from "node:vm";
 
 export async function DELETE(request: Request, context: Context) {
+  const body = await request.json();
   const { id } = context.params;
 
   try {
     await connectDB();
+
+    const singleItem = await ItemModel.findById(id)
+    if (singleItem.email !== body.email) throw new Error("メールアドレスが一致しません")
+
     await ItemModel.deleteOne({ _id: id})
     return NextResponse.json({ message: "アイテム削除成功" });
-  } catch {
+  } catch(e) {
+    console.log(e)
     return NextResponse.json({ message: "アイテム削除失敗" });
   }
 }
